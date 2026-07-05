@@ -3,8 +3,8 @@
 const SITE = {
   name: "Daksh Jain",
   tagline: "Engineering Portfolio",
-  role: "Engineering Student · Builder · Problem Solver",
-  email: "dakjain5@gmail.com",
+  role: "Highschool Student · Builder · Problem Solver",
+  email: "jaindaksh5161@gmail.com",
   github: "https://github.com/Dakshbuilds18",
   linkedin: "",                                        // optional, e.g. "https://linkedin.com/in/..."
   youtube: "",                                         // optional
@@ -12,8 +12,8 @@ const SITE = {
 
   // Shown on the home page under "About Me"
   about: [
-    "Hi, I'm Daksh. I'm an engineering student who loves designing, building, breaking, and rebuilding things until they work.",
-    "This site is my engineering notebook made public: every project here is documented end-to-end — the problem I started with, the research, the failed attempts, the iterations, and what I'd do differently next time.",
+    "Hi, I'm Daksh. I'm an Highschool student who loves designing, building, breaking, and rebuilding things until they work.",
+    "This site is my engineering notebook made public: every project here is documented end-to-end. The problem I started with, the research, the failed attempts, the iterations, and what I'd do differently next time.",
     "When I'm not building, I'm writing about what I learned on the blog."
   ],
 
@@ -24,7 +24,9 @@ const SITE = {
     "Electronics & Soldering",
     "Arduino / Microcontrollers",
     "Python",
-    "Problem Solving"
+    "Problem Solving",
+    "Woodworking",
+    "Soldering"
   ],
 
   // Path to your resume PDF. Drop the file into assets/resume/ and update this.
