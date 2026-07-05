@@ -5,7 +5,7 @@ const SITE = {
   tagline: "Engineering Portfolio",
   role: "Engineering Student · Builder · Problem Solver",
   email: "dakjain5@gmail.com",
-  github: "https://github.com/YOUR_GITHUB_USERNAME",   // ← put your GitHub URL here
+  github: "https://github.com/Dakshbuilds18",
   linkedin: "",                                        // optional, e.g. "https://linkedin.com/in/..."
   youtube: "",                                         // optional
   instagram: "",                                       // optional
