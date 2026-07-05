@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home">
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Engineering Portfolio</div>
+      <h1 id="hero-name"></h1>
+      <p class="role" id="hero-role"></p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="projects.html">View Projects</a>
+        <a class="btn" href="resume.html">Resume</a>
+        <a class="btn" id="hero-github" href="#" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </section>
+
+    <section class="about-block">
+      <h2>About Me</h2>
+      <div id="about-text"></div>
+      <div class="skill-row" id="skill-row"></div>
+    </section>
+
+    <div class="section-head">
+      <h2>Featured Projects</h2>
+      <a href="projects.html">All projects →</a>
+    </div>
+    <div class="card-grid" id="featured-grid"></div>
+
+    <div class="section-head">
+      <h2>Latest from the Blog</h2>
+      <a href="blog.html">All posts →</a>
+    </div>
+    <div id="latest-posts"></div>
+  </main>
+
+  <script src="content/config.js"></script>
+  <script src="content/projects.js"></script>
+  <script src="content/posts.js"></script>
+  <script src="js/md.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    document.getElementById("hero-name").textContent = SITE.name;
+    document.getElementById("hero-role").textContent = SITE.role;
+    document.getElementById("hero-github").href = SITE.github;
+    document.getElementById("about-text").innerHTML = SITE.about.map(p => `<p>${p}</p>`).join("");
+    document.getElementById("skill-row").innerHTML = SITE.skills.map(s => `<span class="skill">${s}</span>`).join("");
+
+    const featured = PROJECTS.filter(p => p.featured).sort(byDateDesc).slice(0, 3);
+    document.getElementById("featured-grid").innerHTML = featured.length
+      ? featured.map(projectCard).join("")
+      : '<p class="empty-note">No featured projects yet — add one in content/projects.js</p>';
+
+    const latest = [...POSTS].sort(byDateDesc).slice(0, 3);
+    document.getElementById("latest-posts").innerHTML = latest.length
+      ? latest.map(postCard).join("")
+      : '<p class="empty-note">No posts yet — add one in content/posts.js</p>';
+  </script>
+</body>
+</html>

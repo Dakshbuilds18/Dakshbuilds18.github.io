@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="resume">
+  <main>
+    <div class="section-head" style="margin-top:0">
+      <h1>Resume</h1>
+      <a class="btn btn-primary" id="download-btn" href="#" download>Download PDF</a>
+    </div>
+    <div id="resume-area"></div>
+  </main>
+
+  <script src="content/config.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    const file = SITE.resumeFile;
+    document.getElementById("download-btn").href = file;
+
+    // Try to embed the PDF; show a note if the file isn't there yet
+    fetch(file, { method: "HEAD" })
+      .then(r => { if (!r.ok) throw new Error(); showPdf(); })
+      .catch(() => {
+        document.getElementById("resume-area").innerHTML =
+          '<p class="empty-note">Resume not uploaded yet — drop your PDF into <code>assets/resume/</code> and set <code>resumeFile</code> in content/config.js</p>';
+      });
+
+    function showPdf() {
+      document.getElementById("resume-area").innerHTML =
+        `<iframe class="resume-frame" src="${file}" title="Resume"></iframe>`;
+    }
+  </script>
+</body>
+</html>

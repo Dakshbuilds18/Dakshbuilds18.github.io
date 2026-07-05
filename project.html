@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="projects">
+  <main>
+    <article class="article" id="article"></article>
+  </main>
+
+  <script src="content/config.js"></script>
+  <script src="content/projects.js"></script>
+  <script src="js/md.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    const proj = PROJECTS.find(p => p.id === getParam("id"));
+    const el = document.getElementById("article");
+
+    if (!proj) {
+      el.innerHTML = '<h1>Project not found</h1><p><a href="projects.html">← Back to projects</a></p>';
+    } else {
+      document.title = proj.title;
+
+      const sections = [
+        ["problem", "Problem"],
+        ["designGoals", "Design Goals"],
+        ["research", "Research"],
+        ["challenges", "Challenges"],
+        ["failures", "Failures"],
+        ["iterations", "Iterations"],
+        ["finalProduct", "Final Product"],
+        ["improvements", "What I'd Improve"],
+      ].filter(([key]) => proj[key] && proj[key].trim());
+
+      const toc = sections.length
+        ? `<nav class="doc-toc"><strong>Documentation</strong>${
+            sections.map(([key, label], i) => `<a href="#${key}">${i + 1}. ${label}</a>`).join("")
+          }</nav>`
+        : "";
+
+      const body = sections.map(([key, label], i) => `
+        <section class="doc-section" id="${key}">
+          <h2><span class="doc-num">${String(i + 1).padStart(2, "0")}</span>${label}</h2>
+          <div class="md">${renderMarkdown(proj[key])}</div>
+        </section>`).join("");
+
+      const video = proj.videoUrl
+        ? `<section class="doc-section"><h2><span class="doc-num">▶</span>Demo Video</h2>
+             <div class="video-embed"><iframe src="${proj.videoUrl}" allowfullscreen title="Demo video"></iframe></div>
+           </section>`
+        : "";
+
+      const files = (proj.cadFiles && proj.cadFiles.length)
+        ? `<section class="doc-section"><h2><span class="doc-num">⬇</span>CAD Files</h2>
+             <div class="file-list">${proj.cadFiles.map(f => `
+               <div class="file-row"><span class="file-icon">📐</span>
+                 <div class="file-info"><h3>${f.name}</h3></div>
+                 <a class="btn" href="${f.file}" download>Download</a>
+               </div>`).join("")}
+             </div></section>`
+        : "";
+
+      const repo = proj.githubRepo
+        ? `<p><a href="${proj.githubRepo}" target="_blank" rel="noopener">View source code on GitHub ↗</a></p>`
+        : "";
+
+      el.innerHTML = `
+        <p><a href="projects.html">← All projects</a></p>
+        <h1>${proj.title}</h1>
+        <div class="article-meta">${fmtDate(proj.date)}${proj.status ? ` · <span class="status">${proj.status}</span>` : ""}
+          &nbsp; ${(proj.tags || []).map(t => `<span class="tag">${t}</span>`).join(" ")}</div>
+        ${proj.cover ? `<img src="${proj.cover}" alt="${proj.title}">` : ""}
+        <div class="md"><p>${proj.summary || ""}</p></div>
+        ${repo}
+        ${toc}
+        ${body}
+        ${video}
+        ${files}`;
+    }
+  </script>
+</body>
+</html>

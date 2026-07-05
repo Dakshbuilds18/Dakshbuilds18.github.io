@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="gallery">
+  <main>
+    <h1>Gallery</h1>
+    <p class="page-intro">Photos and videos from builds, tests, and everything in between.</p>
+
+    <div class="tab-row">
+      <button class="tab-btn active" data-tab="photos">Photos</button>
+      <button class="tab-btn" data-tab="videos">Videos</button>
+    </div>
+
+    <div id="tab-photos" class="photo-grid"></div>
+    <div id="tab-videos" class="video-grid" style="display:none"></div>
+  </main>
+
+  <script src="content/config.js"></script>
+  <script src="content/media.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    document.getElementById("tab-photos").innerHTML = PHOTOS.length
+      ? PHOTOS.map(p => `
+          <figure class="photo-item">
+            <img src="${p.src}" alt="${p.caption || ""}" loading="lazy">
+            ${p.caption ? `<figcaption>${p.caption}</figcaption>` : ""}
+          </figure>`).join("")
+      : '<p class="empty-note">No photos yet — drop images into assets/images/ and list them in content/media.js</p>';
+
+    document.getElementById("tab-videos").innerHTML = VIDEOS.length
+      ? VIDEOS.map(v => `
+          <div class="video-card">
+            ${v.embed
+              ? `<div class="video-embed"><iframe src="${v.embed}" allowfullscreen title="${v.title || "Video"}"></iframe></div>`
+              : `<video src="${v.file}" controls preload="metadata"></video>`}
+            <div class="vc-body"><h3>${v.title || ""}</h3>${v.caption ? `<p>${v.caption}</p>` : ""}</div>
+          </div>`).join("")
+      : '<p class="empty-note">No videos yet — add YouTube embeds or local files in content/media.js</p>';
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-photos").style.display = btn.dataset.tab === "photos" ? "" : "none";
+        document.getElementById("tab-videos").style.display = btn.dataset.tab === "videos" ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="contact">
+  <main>
+    <h1>Contact</h1>
+    <p class="page-intro">Want to talk about a project, collaboration, or opportunity? Reach out — I read everything.</p>
+    <div class="contact-grid" id="contact-grid"></div>
+  </main>
+
+  <script src="content/config.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    const channels = [
+      ["Email", SITE.email, "mailto:" + SITE.email],
+      ["GitHub", SITE.github ? SITE.github.replace(/^https?:\/\//, "") : "", SITE.github],
+      ["LinkedIn", SITE.linkedin ? "Connect with me" : "", SITE.linkedin],
+      ["YouTube", SITE.youtube ? "Watch my builds" : "", SITE.youtube],
+      ["Instagram", SITE.instagram ? "Behind the scenes" : "", SITE.instagram],
+    ].filter(([, text]) => text);
+
+    document.getElementById("contact-grid").innerHTML = channels.map(([label, text, url]) => `
+      <div class="contact-card">
+        <div class="eyebrow">${label}</div>
+        <a href="${url}" target="_blank" rel="noopener">${text}</a>
+      </div>`).join("");
+  </script>
+</body>
+</html>

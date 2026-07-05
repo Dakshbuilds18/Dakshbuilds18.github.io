@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAD Files</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="cad">
+  <main>
+    <h1>CAD Files</h1>
+    <p class="page-intro">Downloadable models from my projects — STEP, STL, and native CAD formats. Free to use for personal and educational projects; credit appreciated.</p>
+    <div class="file-list" id="file-list"></div>
+  </main>
+
+  <script src="content/config.js"></script>
+  <script src="content/media.js"></script>
+  <script src="content/projects.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    // Combine standalone CAD files with each project's attached files
+    const rows = [
+      ...CAD_FILES.map(f => ({ ...f, source: null })),
+      ...PROJECTS.flatMap(p => (p.cadFiles || []).map(f => ({ ...f, source: p }))),
+    ];
+
+    document.getElementById("file-list").innerHTML = rows.length
+      ? rows.map(f => `
+          <div class="file-row">
+            ${f.preview ? `<img class="file-preview" src="${f.preview}" alt="${f.name}">` : `<span class="file-icon">📐</span>`}
+            <div class="file-info">
+              <h3>${f.name}</h3>
+              ${f.description ? `<p>${f.description}</p>` : ""}
+              ${f.source ? `<a class="file-src" href="project.html?id=${encodeURIComponent(f.source.id)}">From project: ${f.source.title}</a>` : ""}
+            </div>
+            <a class="btn" href="${f.file}" download>Download</a>
+          </div>`).join("")
+      : '<p class="empty-note">No CAD files yet — drop files into assets/cad/ and list them in content/media.js (or attach them to a project in content/projects.js)</p>';
+  </script>
+</body>
+</html>
